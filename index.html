@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Babymilchpulver</title>
+  <!-- JQUERY -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- BOOTSTRAP -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+    crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
+  <!-- LEAFLET -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+    crossorigin=""></script>
+  <script src="js/CanvasFlowmapLayer.js"></script>
+  <!-- tween.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.6.0/Tween.min.js"></script>
+  <!-- CSV Parser -->
+  <script src="https://unpkg.com/papaparse@4.3/papaparse.min.js"></script>
+  <!-- CHART.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+  <!-- Material Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
+  <!-- COUNTRIES -->
+  <script src="js/countries.js"></script>
+  <!-- MY STYLES -->
+  <link rel="stylesheet" href="style.css">
+  <!-- MY SCRIPTS -->
+  <script src="js/custom.js"></script>
+</head>
+
+<body data-spy="scroll" data-target="#navbar" data-offset="75">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark material-primary text-white">
+    <a class="navbar-brand" href="#">Babymilchpulver</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav nav-pills nav-fill">
+        <a href="#timeline" class="nav-item nav-link">Timeline</a>
+        <a href="#import" class="nav-item nav-link">China: Import</a>
+        <a href="#produktion" class="nav-item nav-link">China: Produktion vs. Import</a>
+        <a href="#export" class="nav-item nav-link">EU: Export</a>
+        <a href="#einflussfaktoren" class="nav-item nav-link">Einflussfaktoren</a>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="material-primary">
+    <img src="img/milk.png" class="img-fluid" style="width: 100%; margin-top: 60px;">
+  </div>
+
+  <!-- JUMBOTRON -->
+  <div class="jumbotron jumbotron-fluid material-primary-light">
+    <div class="container">
+      <h1 class="display-4">Babymilch&shy;pulver</h1>
+      <p class="lead">Eine Studie zur Lukrativität von Babymilchpulverexporten nach China für das Jahr 2018</p>
+      <hr class="my-4">
+      <p>
+        Zum Januar 2018 trat ein <b>chinesisches Gesetz</b> in Kraft, das <b>1400 der knapp 2000</b> bisher auf dem chinesischen Markt verfügbaren
+        <b>Babymilchpulver verbietet</b>. Bei der chinesischen Bevölkerung besteht eine hohe Nachfrage vor allem nach ausländischen
+        Babymilchpulver. <b>Warum</b> bevorzugen Eltern die <b>teuren ausländischen Produkte</b>, wem <b>schadet</b> und wem <b>nützt</b> die kürzliche
+        <b>Gesetzesänderung</b> und <b>lohnt sich</b> auch 2018 noch <b>der Export</b> von Babymilchpulver nach China, das seit Jahren die Importstatistiken
+        weltweit anführt?
+      </p>
+      <div class="text-center bounce">
+        <a href="#timeline" title="Go to start">
+          <i id="go-to-start" class="material-icons">expand_more</i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BUTTONS -->
+  <button onclick="goPageUp()" id="go-page-up" class="text-white" title="Go page up">
+    <i class="material-icons">expand_less</i>
+  </button>
+  <button onclick="goPageDown()" id="go-page-down" class="text-white" title="Go page down">
+    <i class="material-icons">expand_more</i>
+  </button>
+
+  <!-- TIMELINE -->
+  <div class="container">
+    <h2 id="timeline">Timeline: Relevante Ereignisse für China</h2>
+  </div>
+
+  <section class="timeline">
+    <ul>
+      <li>
+        <div>
+          <time>2008</time> Mit
+          <b>Melamin</b> verseuchtes Babymilchpulver wird von der marktführenden chinesischen Firma
+          <b>Sanlu</b> vertrieben. In Folge dessen sterben 6 Kleinkinder, rund 300.000 weitere erkranken. 3 Verantwortliche
+          wurden zum Tode verurteilt.
+        </div>
+      </li>
+      <li>
+        <div>
+          <time>2013</time> Bei der neuseeländischen, Milchprodukte vertreibenden Firma
+          <b>Fonterra</b> werden Bakterien nachgewiesen, die angeblich
+          <b>Botulismus</b> auslösen. Auch die größte, auf dem chinesischen Markt vertretene Firma
+          <b>Danone</b> muss Produkte vom Markt nehmen. Allerdings stellte sich dieser Skandal als
+          <b>falscher Alarm</b> heraus.
+        </div>
+      </li>
+      <li>
+        <div>
+          <time>2015</time> China stellt ein
+          <b>Gesetz zur Qualitätssicherheit von Nahrungsmitteln</b> vor, welches eine komplexe und langwierige Registrierung
+          von Babymilchpulvern vorsieht. Geschieht dies nicht bis zum 1. Januar 2018, darf das Mittel in China nicht mehr
+          vertrieben werden. Hiermit will China erreichen, dass die Qualität von Babynahrung hohen Standards entspricht,
+          um das Vertrauen der chinesischen Bevölkerung vor allem für im eigenen Land produzierte Pulver wiederzugewinnen.
+          Weiterhin werden pro Produzenten
+          <b>nur 3 Produktreihen</b> pro Nahrung für eine Altersgruppe von Kindern erlaubt.
+        </div>
+      </li>
+      <li>
+        <div>
+          <time>2016</time> 9 Chinesen werden verhaftet, die mehrere tausend Babymilchpulver-Packungen
+          <b>mit falscher Etikettierung</b> der Firma Similac und Beingmate produzierten und vertrieben.
+        </div>
+      </li>
+      <li>
+        <div>
+          <time>2018</time> Das 2015 beschlossene Gesetz tritt
+          <b>in Kraft</b>. Dies führt zu einem
+          <b>Verkaufsverbot von 1400 der vorher knapp 2000 zugelassenen Babymilchpulvern</b>. Vor allem kleine und mittelständische
+          chinesische Firmen sind vom Verbot betroffen.
+        </div>
+      </li>
+    </ul>
+  </section>
+
+
+
+  <!-- CHINA IMPORT -->
+  <div class="container">
+    <h2 id="import">China: Import</h2>
+    <p>
+      Auch 2017 bleibt
+      <b>China</b> mit Abstand das
+      <b>weltweit importstärkste Land</b> in Bezug auf Babymilchpulver. 6 der 10 Länder, von denen China die größten Mengen
+      importiert, befinden sich in Europa. Die interaktive Karte zeigt die Top 10 dieser Länder in den Jahren 2012 bis 2017
+      inkl. Absatzzahlen sowie die jährliche Importmenge von Babymilchpulver von China.
+    </p>
+    <button onclick="changeFlowmapLayer(importMap,china,'2012')" type="button" class="btn btn-primary btn-import">2012</button>
+    <button onclick="changeFlowmapLayer(importMap,china,'2013')" type="button" class="btn btn-primary btn-import">2013</button>
+    <button onclick="changeFlowmapLayer(importMap,china,'2014')" type="button" class="btn btn-primary btn-import">2014</button>
+    <button onclick="changeFlowmapLayer(importMap,china,'2015')" type="button" class="btn btn-primary btn-import">2015</button>
+    <button onclick="changeFlowmapLayer(importMap,china,'2016')" type="button" class="btn btn-primary btn-import">2016</button>
+    <button onclick="changeFlowmapLayer(importMap,china,'2017')" type="button" class="btn btn-primary btn-import" id="btn-import-2017">2017</button>
+    <div class="map" id="importmap"></div>
+    <p>
+      Ganz eindeutig zeichnet sich über die gesamte Zeitspanne die
+      <b>Niederlande</b> als
+      <b>größter Exporteur</b> von Babymilchpulverprodukten aus und exportiert damit im Jahre 2017 knapp genauso viel wie Platz
+      2 und 3 der größten Exporteure, Neuseeland und Frankreich.
+    </p>
+  </div>
+
+  <div class="container">
+    <h3>Importzahlen im Trend</h3>
+    <p>
+      Über die Jahre 2012 bis 2017 nimmt die Importmenge von Babymilchpulverprodukten stetig zu. Auch in den rezenten Jahren 2016
+      und vor allem 2017 mit einem Plus von 78.000 Tonnen zum Vorjahr konnte im Vergleich zu den Vorjahren ein weiterer starker
+      Anstieg verzeichnet werden.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="panel-group" id="accordionOne" role="tablist">
+      <div class="panel panel-default">
+        <div class="panel-heading material-primary" role="tab" id="headingOne">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordionOne" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              Auf einen Blick: Die Top-Exporteure 2012 bis 2017
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body material-primary-light">
+            <canvas id="topimports" width="960" height="450"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <hr class="my-4">
+  </div>
+
+
+
+  <!-- CHINA PRODUKTION VS. IMPORT -->
+
+  <div class="container">
+    <h2 id="produktion">China: Produktion vs. Import</h2>
+    <p>
+      Über den Verlauf von 2009 bis 2018
+      <b>nähern sich die Mengen von produziertem und importiertem Babymilchpulver immer mehr an</b>. Im Vergleich zu dem konstanten
+      Anstieg der Importe von Babymilchpulver stellt die inländischen Produktion seit dem 4. Quartal 2013 ein Gefälle dar.
+      Im Januar 2013 importierte China erstmals seit Aufzeichnungsbeginn der Statistiken mehr Babymilchpulver als produziert
+      wurde. Das kurze Hoch in der inländischen Produktion in den Sommermonaten 2013 stellt gleichzeitig auch die Einleitung
+      eines Gefälles der chinesischen Produktion dar.
+    </p>
+    <canvas id="productionvsimport" width="960" height="450"></canvas>
+    <p>
+      Seitdem überschreiten die Importmengen monatlich immer häufiger die eigene Produktion. Im Jahr 2017 wurde hierbei so wenig
+      produziert wie seit vielen Jahren zuvor nicht mehr. Im Januar 2018 wurde so viel importiert wie noch nie zuvor. Die
+      Importmenge überschritt die Produktionsmenge um das 2,5-fache. Die
+      <b>Produktion erreichte einen so niedrigen Wert</b>, der zuletzt im Februar 2010 unterschritten wurde. Diesen Sachverhalt für das Jahr 2018 kann man eindeutig dem <b>Gesetz zur Qualitätssicherheit von Nahrungsmitteln</b> zuschreiben, welches vor allem die kleineren chinesischen Produzenten schädigt.
+    </p>
+  </div>
+
+  <div class="container">
+    <hr class="my-4">
+  </div>
+
+
+
+  <!-- EU EXPORT -->
+  <div class="container">
+    <h2 id="export">EU: Export</h2>
+    <p>
+      Seit Beginn der statistischen Datenreihe ist
+      <b>China</b> mit Abstand der
+      <b>wichtigste Importeur von Babymilchpulverprodukten der Europäischen Union</b>, gefolgt von Hongkong. Weitere größere
+      Exporte gehen nach Nordafrika, machen im Vergleich zu den asiatischen Hauptabnehmern eher eine geringe Rolle aus.
+    </p>
+    <button onclick="changeFlowmapLayer(exportMap,eu,'2014')" type="button" class="btn btn-primary btn-export">2014</button>
+    <button onclick="changeFlowmapLayer(exportMap,eu,'2015')" type="button" class="btn btn-primary btn-export">2015</button>
+    <button onclick="changeFlowmapLayer(exportMap,eu,'2016')" type="button" class="btn btn-primary btn-export">2016</button>
+    <button onclick="changeFlowmapLayer(exportMap,eu,'2017')" type="button" class="btn btn-primary btn-export" id="btn-export-2017">2017</button>
+    <button onclick="changeFlowmapLayer(exportMap,eu,'2018')" type="button" class="btn btn-primary btn-export">2018</button>
+    <div class="map" id="exportmap"></div>
+  </div>
+
+  <div class="container">
+    <h3>Exportzahlen im Trend</h3>
+    <p>
+      Seit 2014 steigen die Exportzahlen nach China und Hongkong konstant an. Der bereits sehr ausgeprägte Trend für China hat
+      seit 2017 noch einmal einen weiteren Anstieg erlebt. Ebenfalls sind die Exporte nach Hongkong seit 2017 stark angestiegen.
+      Der Export in die Top 3 bis Top 10 zeigen hingegen keinen ausgeprägten Trend und stagnieren zum Teil.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="panel-group" id="accordionTwo" role="tablist">
+      <div class="panel panel-default">
+        <div class="panel-heading material-primary" role="tab" id="headingTwo">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordionTwo" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Auf einen Blick: Die Exporte der EU 2014 bis 2018
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body material-primary-light">
+            <canvas id="topexports" width="960" height="450"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <hr class="my-4">
+  </div>
+
+  <div class="container">
+    <h2 id="einflussfaktoren">Einflussfaktoren auf die Entwicklung des Importverhaltens</h2>
+    <div class="media">
+      <img class="mr-2 mt-2" src="img/trust_p.png" alt="trust" width="80px" height="80px">
+      <div class="media-body">
+        <h3>Geringes Vertrauen in einheimischen Produkten</h3>
+        <p>
+          Der
+          <b>Melaminskandal 2008</b> erzeugte ein großes Misstrauen der chinesischen Bevölkerung. Sanlu war zum Zeitpunkt des
+          Skandals die größte chinesische Firma, die Babynahrungsmittel vertrieb. Alleine durch die schiere Menge von knapp
+          300.000 erkrankten Kleinkindern lässt auf die Verbreitung des Babymilchpulvers schließen. Seitdem hat sich die
+          Meinung des Volkes nicht mehr geändert. Auch die jüngsten Skandale feuerten das Misstrauen weiter an und sorgen
+          für die hohe Nachfrage von den teureren importierten Pulvern.
+        </p>
+      </div>
+    </div>
+
+    <hr class="my-2">
+
+    <div class="media">
+      <img class="mr-2 mt-2" src="img/money_p.png" alt="money" width="80px" height="80px">
+      <div class="media-body">
+        <h3>Zunehmender Reichtum in der chinesischen Bevölkerung</h3>
+        <p>
+          Im Laufe der Jahre hat sich das Pro-Kopf-Einkommen erhöht. Lag dieses zur Jahrtausendwende noch auf dem Niveau von Indien
+          und Pakistan, weitere bevölkerungsstarke Länder in unmittelbarer geographischer Nähe, hat sich ein
+          <b>starker positiver Trend</b> entwickelt, der nun das durchschnittliche Pro-Kopf-Einkommen weltweit erreicht. So
+          stieg das Einkommen
+          <b>in knapp 16 Jahren von 1.000 auf über 15.000 KKP-Dollar</b>.
+        </p>
+        <p>Als weitere Beobachtungsgröße wird der
+          <b>GINI-Index</b> hinzugezogen, eine Kenngröße für die
+          <b>Vermögensverteilung</b> in der Bevölkerung. Dieser liegt zwischen 0 und 1, wobei ein höherer Wert eine stärkeres
+          Ungleichgewicht. Im jährlichem Global Wealth Report der Credit Suisse erreicht einen Wert von 78,9% für das Jahr
+          2017, Tendenz steigend. Dies bedeutet eine
+          <b>große Diskrepanz zwischen Arm und Reich</b> und eine immer größer werdende Bevölkerungsgruppe, die sich die Produkte
+          aus dem Ausland leisten kann. In von China veröffentlichten Statistiken liegt der Wert bei knapp der Hälfte, bei
+          knapp über 40%.
+          <br> Beide Faktoren erzeugen eine große Bevölkerungsgruppe in China, die genug Geld verdienen, um sich die Importprodukte
+          leisten zu können.
+        </p>
+      </div>
+    </div>
+    <canvas id="gni" class="small-canvas" width="960" height="450"></canvas>
+
+    <hr class="my-2">
+
+    <div class="media">
+      <img class="mr-2 mt-2" src="img/feeding-bottle_p.png" alt="feeding-bottle" width="80px" height="80px">
+      <div class="media-body">
+        <h3>Immer weniger Bruststillung von Neugeborenen</h3>
+        <p>
+          Die Anzahl an Babys in China, die in ihren ersten 6 Monaten ausschließlich mit der Brust gestillt werden, ist äußerst gering.
+          Lag die Zahl vor 20 Jahren noch bei über 60%, ist diese Rate heute bei nur noch knapp 20% und damit weltweit eine
+          der geringsten Raten. Gründe hierfür sind, dass
+          <b>junge Mütter keinen Schwangerschaftsurlaub bekommen</b>, deswegen schon bald nach der Geburt wieder arbeiten und
+          <b>im Bereich der Bruststillung keine staatliche Aufklärung geleistet wird</b>. Ein weiterer Grund ist die
+          <b>allgegenwertige Werbung für Babymilchpulverprodukte</b> in China.
+        </p>
+      </div>
+    </div>
+    <canvas id="breastfeeding" class="small-canvas" width="960" height="450"></canvas>
+
+    <hr class="my-2">
+
+    <div class="media">
+      <img class="mr-2 mt-2" src="img/baby_p.png" alt="baby" width="80px" height="80px">
+      <div class="media-body">
+        <h3>China könnte einen Babyboom erwarten</h3>
+        <p>
+          Im Jahre 2015 hat die chinesische Regierung die Ein-Kind-Politik zu einer
+          <b>Zwei-Kind-Politik gelockert</b>, welche der fortschreitenden Überalterung der Bevölkerung entgegenwirken soll.
+          Doch bis zum heutigen Tag
+          <b>blieb ein Anstieg der Geburtenrate aus, sie ist weiterhin rückläufig</b>. Dies liegt daran, dass das Aufziehen
+          eines Kindes in China sehr viele
+          <b>Kosten</b> verursacht, die viele Chinesen nicht decken können. Auch ist es für viele Erwachsene schwierig,
+          <b>Kind und Beruf zu vereinbaren</b>. Sollte China diese Probleme in naher Zukunft in den Griff bekommen, wäre ein
+          Anstieg der Geburtenrate die Folge.
+        </p>
+      </div>
+    </div>
+    <canvas id="birthrate" class="small-canvas" width="960" height="450"></canvas>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer material-primary text-center text-white">
+    <a id="footer" href="impressum.html">Impressum</a>
+    <p id="footer">Copyright &copy; 2018 Richard Zille</p>
+  </footer>
+
+  <script>
+    // Add active state to two buttons by id on load of page
+    $("#btn-import-2017").addClass('active');
+    $("#btn-export-2017").addClass('active');
+
+    // Keep active state of button until another button is clicked
+    $('.btn-import').click(function () {
+      if ($('.btn-import').hasClass('active')) {
+        $('.btn-import').removeClass('active');
+      }
+      $(this).addClass('active');
+    });
+    $('.btn-export').click(function () {
+      if ($('.btn-export').hasClass('active')) {
+        $('.btn-export').removeClass('active');
+      }
+      $(this).addClass('active');
+    });
+
+    // Add/remove class active for accordion
+    $('.panel-collapse').on('show.bs.collapse', function () {
+      $(this).siblings('.panel-heading').addClass('active');
+    });
+
+    $('.panel-collapse').on('hide.bs.collapse', function () {
+      $(this).siblings('.panel-heading').removeClass('active');
+    });
+
+
+
+    // MAPS
+
+    var china = {
+      lat: 33.362954,
+      lng: 102.832031
+    };
+    var eu = {
+      lat: 51.083742,
+      lng: 10.195313
+    };
+
+    var importMap = L.map('importmap').setView(china, 2);
+    var exportMap = L.map('exportmap').setView(eu, 2);
+
+    changeFlowmapLayer(importMap, china, '2017');
+    changeFlowmapLayer(exportMap, eu, '2017');
+
+    // // Get Latitude & Longitude on mouse click
+    // var popup = L.popup();
+    // function onMapClick(e) {
+    //   popup
+    //     .setLatLng(e.latlng)
+    //     .setContent("You clicked the map at " + e.latlng.toString())
+    //     .openOn(importMap);
+    // }
+    // importMap.on('click', onMapClick);
+
+
+
+    // LINECHARTS
+
+    initChart('topimports', 'line');
+    initChart('topexports', 'line');
+    // Server Connection, call init of chart if successfull
+    $.ajax({
+      url: 'serverconnection.php',
+      type: 'GET', // type of the HTTP request
+      success: function (data) {
+        var obj = jQuery.parseJSON(data);
+        console.log('Fetched Data from DB', obj);
+        initChart('productionvsimport', 'line', obj.importExport);
+        initChart('gni', 'line', obj.gni);
+      }
+    });
+    initChart('breastfeeding', 'bar');
+    initChart('birthrate', 'line');
+
+
+
+    // TIMELINE
+
+    (function () {
+
+      'use strict';
+
+      // Define variables
+      var items = document.querySelectorAll(".timeline li");
+
+      // Check if an element is in viewport
+      function isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+
+      function callbackFunc() {
+        for (var i = 0; i < items.length; i++) {
+          if (isElementInViewport(items[i])) {
+            items[i].classList.add("in-view");
+          }
+        }
+      }
+
+      // Listen for events
+      window.addEventListener("load", callbackFunc);
+      window.addEventListener("resize", callbackFunc);
+      window.addEventListener("scroll", callbackFunc);
+
+    })();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,414 @@
+/* GLOBAL */
+
+body {
+  position: relative;
+  font-family: 'Open Sans';
+  /* Hyphens */
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Quicksand';
+}
+
+.footer {
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+#footer {
+  margin: 20px;
+}
+
+.footer a {
+  color: #FFF;
+}
+
+.footer a:hover {
+  color: #E0F2F1;
+}
+
+.back-button {
+  margin-bottom: -10px;
+}
+
+.back-button i {
+  font-size: 32px;
+}
+
+.material-primary {
+  background-color: #00897B !important;
+}
+
+.material-primary-light {
+  background-color: #E0F2F1 !important;
+}
+
+.material-primary-darker {
+  background-color: #00695C !important;
+}
+
+.material-primary-lighter {
+  background-color: #26A69A !important;
+}
+
+.material-complementary {
+  background-color: #980C18 !important;
+}
+
+.material-complementary-light {
+  background-color: #D58B8B !important;
+}
+
+.material-complementary-darker {
+  background-color: #89000E !important;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled).active {
+  background-color: #00897B;
+  border-color: #26A69A;
+}
+
+.btn-primary:hover {
+  background-color: #00695C !important;
+  border-color: #26A69A;
+}
+
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:focus,
+.btn-primary:not(:disabled):not(.disabled).active {
+  box-shadow: 0 0 0 .2rem #26A69A !important;
+}
+
+.nav-link {
+  color: #FFF;
+}
+
+.nav-link:hover,
+.navbar-brand:hover {
+  color: #E0F2F1 !important;
+}
+
+.nav-link.active {
+  color: #212529 !important;
+  background-color: #E0F2F1 !important;
+}
+
+.container {
+  max-width: 960px;
+}
+
+/* NAVIGATION BUTTONS */
+
+/* Bouncing arrow */
+
+.bounce {
+  -moz-animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
+  margin-top: 50px;
+  margin-bottom: -50px;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+#go-to-start {
+  font-size: 64px;
+  color: #26A69A;
+}
+
+#go-to-start:hover {
+  color: #00695C;
+}
+
+/* Bottom right buttons */
+
+#go-page-up,
+#go-page-down {
+  position: fixed;
+  bottom: 20px;
+  z-index: 1200;
+  border: none;
+  outline: none;
+  background: #980C18;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  border-radius: 35px;
+  display: none;
+}
+
+#go-page-up i,
+#go-page-down i {
+  font-size: 32px;
+  position: relative;
+  top: 2px;
+}
+
+#go-page-up {
+  right: 75px;
+}
+
+#go-page-down {
+  right: 20px;
+}
+
+#go-page-up:hover,
+#go-page-down:hover {
+  background: #89000E;
+}
+
+/* MAPS */
+
+.map {
+  height: 600px;
+  max-width: 960px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.info {
+  padding: 5px;
+  margin: 10px;
+  background: #fff;
+  border-radius: 5px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.info h4 {
+  margin-bottom: 5px;
+}
+
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+}
+
+.material-icons.up,
+.material-icons.down,
+.material-icons.eq {
+  font-size: 18px;
+  vertical-align: -5px;
+}
+
+.material-icons.up {
+  color: #00FF00;
+}
+
+.material-icons.down {
+  color: #FF0000;
+}
+
+.material-icons.eq {
+  color: #0000FF;
+}
+
+.card-header {
+  color: #fff;
+}
+
+/* CHARTS */
+
+.small-canvas {
+  padding: 0;
+  margin: auto;
+  display: block;
+  max-width: 600px !important;
+}
+
+/* ACCORDION */
+
+.panel-title {
+  margin-bottom: 0px;
+}
+
+.panel-title>a,
+.panel-title>a:active {
+  display: block;
+  padding: 15px;
+  color: #FFF;
+}
+
+.panel-heading a:before {
+  font-family: 'Material Icons';
+  content: "expand_more";
+  float: right;
+  transition: all 0.5s;
+}
+
+.panel-heading.active a:before {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+/* TIMELINE */
+
+/* *,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+} */
+
+.timeline ul {
+  padding: 50px 0;
+}
+
+.timeline ul li {
+  list-style-type: none;
+  position: relative;
+  width: 6px;
+  margin: 0 auto;
+  padding-top: 50px;
+  background: #E0F2F1;
+}
+
+.timeline ul li::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.timeline ul li div {
+  position: relative;
+  bottom: 0;
+  width: 400px;
+  padding: 15px;
+  background: #D58B8B;
+}
+
+.timeline ul li div::before {
+  content: '';
+  position: absolute;
+  bottom: 7px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.timeline ul li:nth-child(odd) div {
+  left: 45px;
+}
+
+.timeline ul li:nth-child(odd) div::before {
+  left: -15px;
+  border-width: 8px 16px 8px 0;
+  border-color: transparent #D58B8B transparent transparent;
+}
+
+.timeline ul li:nth-child(even) div {
+  left: -439px;
+}
+
+.timeline ul li:nth-child(even) div::before {
+  right: -15px;
+  border-width: 8px 0 8px 16px;
+  border-color: transparent transparent transparent #D58B8B;
+}
+
+time {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Effects */
+
+.timeline ul li::after {
+  transition: background .5s ease-in-out;
+}
+
+.timeline ul li.in-view::after {
+  background: #D58B8B;
+}
+
+.timeline ul li div {
+  visibility: hidden;
+  opacity: 0;
+  transition: all .5s ease-in-out;
+}
+
+.timeline ul li:nth-child(odd) div {
+  transform: translate3d(200px, 0, 0);
+}
+
+.timeline ul li:nth-child(even) div {
+  transform: translate3d(-200px, 0, 0);
+}
+
+.timeline ul li.in-view div {
+  transform: none;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* General media queries */
+
+@media screen and (max-width: 900px) {
+  .timeline ul li div {
+    width: 250px;
+  }
+  .timeline ul li:nth-child(even) div {
+    left: -289px;
+    /*250+45-6*/
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .timeline ul li {
+    margin-left: 20px;
+  }
+  .timeline ul li div {
+    width: calc(100vw - 91px);
+  }
+  .timeline ul li:nth-child(even) div {
+    left: 45px;
+  }
+  .timeline ul li:nth-child(even) div::before {
+    left: -15px;
+    border-width: 8px 16px 8px 0;
+    border-color: transparent #D58B8B transparent transparent;
+  }
+}
